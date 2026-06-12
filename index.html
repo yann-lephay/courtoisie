@@ -72,6 +72,52 @@
             color: var(--accent);
         }
 
+        .nav-links .dropdown {
+            position: relative;
+        }
+
+        .nav-links .dropdown > a {
+            cursor: pointer;
+        }
+
+        .nav-links .dropdown-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 16px 80px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: all 0.3s ease;
+            list-style: none;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+        }
+
+        .nav-links .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-links .dropdown-menu li a {
+            display: block;
+            padding: 4px 0;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--gray);
+        }
+
+        .nav-links .dropdown-menu li a:hover {
+            color: var(--primary);
+        }
+
         .nav-icons {
             display: flex;
             gap: 25px;
@@ -711,7 +757,13 @@
                 <img src="logo jas sans fond.png" alt="Courtoisie" style="height: 40px; width: auto;">
             </div>
             <ul class="nav-links">
-                <li><a href="#collections">Collections</a></li>
+                <li class="dropdown">
+                    <a href="#collections">Collections</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="polos-sartre.html">Polos Sartre</a></li>
+                        <li><a href="tshirts-descarte.html">T-Shirts Descarte</a></li>
+                    </ul>
+                </li>
                 <li><a href="#manifeste">Manifeste</a></li>
                 <li><a href="#artisanat">Artisanat</a></li>
                 <li><a href="#histoire">Notre Histoire</a></li>

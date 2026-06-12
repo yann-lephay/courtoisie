@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courtoisie - Polos Sartre</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c9a961;
+            --light: #f8f7f4;
+            --gray: #6b6b6b;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: var(--light);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--light);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 10px rgba(0,0,0,0.05);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 36px; width: auto; }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links .dropdown { position: relative; }
+
+        .nav-links .dropdown-menu {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 16px 80px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: all 0.3s ease;
+            list-style: none;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+        }
+
+        .nav-links .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-links .dropdown-menu li a {
+            display: block;
+            padding: 4px 0;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--gray);
+        }
+
+        .nav-links .dropdown-menu li a:hover {
+            color: var(--primary);
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 50px 40px 20px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            color: var(--gray);
+            max-width: 650px;
+            margin: 0 auto;
+            letter-spacing: 0.5px;
+            line-height: 1.7;
+        }
+
+        .product-count {
+            padding: 10px 40px;
+            font-size: 13px;
+            color: var(--gray);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            position: relative;
+            background: #f0ede8;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .product-card .image-wrapper {
+            aspect-ratio: 3 / 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow: hidden;
+        }
+
+        .product-card .image-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .image-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .product-card .card-info {
+            padding: 16px 20px;
+            background: var(--light);
+        }
+
+        .product-card .card-info h3 {
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .product-card .card-info .price {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .product-card .heart {
+            position: absolute;
+            bottom: 70px;
+            right: 16px;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-card:hover .heart {
+            opacity: 1;
+        }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            font-size: 12px;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            nav { padding: 0 20px; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .page-header { padding: 30px 20px 10px; }
+            .page-header h1 { font-size: 22px; letter-spacing: 6px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html"><img src="logo jas sans fond.png" alt="Courtoisie"></a>
+            </div>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="index.html#collections">Collections</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="polos-sartre.html">Polos Sartre</a></li>
+                        <li><a href="tshirts-descarte.html">T-Shirts Descarte</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#manifeste">Manifeste</a></li>
+                <li><a href="index.html#artisanat">Artisanat</a></li>
+                <li><a href="index.html#histoire">Notre Histoire</a></li>
+            </ul>
+            <div style="width:65px;"></div>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h1>Polos Sartre</h1>
+        <p>Polos manches courtes Homme — Made in France en coton biologique certifié. Col et bas de manches en bord-côte. Patte de col 2 boutons. Coupe légèrement cintrée. Languette tricolore au niveau du bras gauche.</p>
+    </section>
+
+    <div class="product-count">3 produits</div>
+
+    <div class="products-grid">
+        <div class="product-card">
+            <div class="image-wrapper">
+                <img src="IMG_8774.PNG" alt="Polo Sartre Noir">
+            </div>
+            <div class="card-info">
+                <h3>Polo Sartre — Noir</h3>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="image-wrapper">
+                <img src="polo blanc.PNG" alt="Polo Sartre Blanc">
+            </div>
+            <div class="card-info">
+                <h3>Polo Sartre — Blanc</h3>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="image-wrapper">
+                <img src="polo vert.PNG" alt="Polo Sartre Vert">
+            </div>
+            <div class="card-info">
+                <h3>Polo Sartre — Vert</h3>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Courtoisie - Tous droits réservés</p>
+    </footer>
+</body>
+</html>
