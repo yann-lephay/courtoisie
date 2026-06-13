@@ -193,11 +193,92 @@
             opacity: 0.7;
         }
 
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+            z-index: 1100;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 1050;
+            padding: 100px 40px 40px;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            display: block;
+            text-align: left;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--accent);
+        }
+
+        .mobile-menu .mobile-sub {
+            padding-left: 20px;
+        }
+
+        .mobile-menu .mobile-sub a {
+            font-size: 14px;
+            color: var(--gray);
+            letter-spacing: 2px;
+        }
+
         @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
             .nav-links { display: none; }
             nav { padding: 0 20px; }
             .contact-page { padding: 40px 20px; }
             .contact-card h1 { font-size: 24px; letter-spacing: 6px; }
+            .footer-big-name {
+                font-size: 10vw !important;
+                letter-spacing: 5px !important;
+                padding-left: 5px !important;
+            }
         }
     </style>
 </head>
@@ -219,9 +300,27 @@
                 <li><a href="index.html#artisanat">Artisanat</a></li>
                 <li><a href="index.html#histoire">Notre Histoire</a></li>
             </ul>
+            <button class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div style="width:65px;"></div>
         </nav>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html#collections" onclick="toggleMobileMenu()">Collections</a>
+        <div class="mobile-sub">
+            <a href="polos-sartre.html">Polos Sartre</a>
+            <a href="tshirts-descarte.html">T-Shirts Descarte</a>
+        </div>
+        <a href="index.html#manifeste" onclick="toggleMobileMenu()">Manifeste</a>
+        <a href="index.html#artisanat" onclick="toggleMobileMenu()">Artisanat</a>
+        <a href="index.html#histoire" onclick="toggleMobileMenu()">Notre Histoire</a>
+        <a href="contact.html" onclick="toggleMobileMenu()">Contact</a>
+    </div>
 
     <div class="contact-page">
         <div class="contact-card">
@@ -240,8 +339,14 @@
     </div>
 
     <footer>
-        <div style="text-align:center;font-size:12vw;font-weight:300;letter-spacing:20px;color:rgba(255,255,255,0.08);line-height:1;padding:40px 0 20px;overflow:hidden;">COURTOISIE</div>
+        <div class="footer-big-name" style="text-align:center;font-size:12vw;font-weight:300;letter-spacing:20px;color:rgba(255,255,255,0.08);line-height:1;padding:40px 0 20px;overflow:hidden;">COURTOISIE</div>
         <p>&copy; 2025 Courtoisie - Tous droits réservés</p>
     </footer>
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+            document.querySelector('.hamburger').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
