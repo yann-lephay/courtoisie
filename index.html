@@ -479,9 +479,8 @@
 
         /* Footer */
         footer {
-            background: var(--primary);
+            background: white;
             padding: 60px 40px 30px;
-            color: rgba(255,255,255,0.7);
         }
 
         .footer-content {
@@ -499,7 +498,6 @@
             letter-spacing: 3px;
             margin-bottom: 20px;
             text-transform: uppercase;
-            color: white;
         }
 
         .footer-section ul {
@@ -511,7 +509,7 @@
         }
 
         .footer-section a {
-            color: rgba(255,255,255,0.5);
+            color: var(--gray);
             text-decoration: none;
             font-size: 14px;
             transition: color 0.3s;
@@ -521,23 +519,25 @@
             color: var(--accent);
         }
 
-        .footer-big-name {
+        .footer-big-block {
+            background: var(--primary);
             text-align: center;
+            padding: 40px 0 20px;
+            overflow: hidden;
+        }
+
+        .footer-big-block .big-name {
             font-size: 12vw;
             font-weight: 300;
             letter-spacing: 20px;
             color: rgba(255,255,255,0.08);
             line-height: 1;
-            padding: 40px 0 20px;
-            overflow: hidden;
         }
 
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+        .footer-big-block .copyright {
             color: rgba(255,255,255,0.5);
             font-size: 13px;
+            margin-top: 20px;
         }
 
         /* Cart Sidebar */
@@ -1001,13 +1001,11 @@
                 </ul>
             </div>
         </div>
-        <div class="footer-big-name">
-            COURTOISIE
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Courtoisie - Tous droits réservés | Paiements sécurisés par Stripe</p>
-        </div>
     </footer>
+    <div class="footer-big-block">
+        <div class="big-name">COURTOISIE</div>
+        <p class="copyright">&copy; 2025 Courtoisie - Tous droits réservés | Paiements sécurisés par Stripe</p>
+    </div>
 
     <!-- Cart Sidebar -->
     <div class="cart-sidebar" id="cartSidebar">
