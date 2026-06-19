@@ -259,6 +259,67 @@
             letter-spacing: 2px;
         }
 
+        .size-guide-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 30px;
+            background: none;
+            border: 1px solid var(--primary);
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .size-guide-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 700px;
+            width: 90%;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .modal-content img {
+            width: 100%;
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #333;
+            z-index: 1;
+        }
+
         @media (max-width: 768px) {
             .hamburger {
                 display: flex;
@@ -371,6 +432,15 @@
             <div class="card-info">
                 <h3>T-Shirt Descarte — Rouge</h3>
             </div>
+        </div>
+    </div>
+
+    <button class="size-guide-btn" onclick="document.getElementById('sizeModal').classList.add('active')">Guide des tailles</button>
+
+    <div class="modal-overlay" id="sizeModal" onclick="if(event.target===this)this.classList.remove('active')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="document.getElementById('sizeModal').classList.remove('active')">&times;</button>
+            <img src="guidesdestailles2.jpg" alt="Guide des tailles T-Shirts">
         </div>
     </div>
 
