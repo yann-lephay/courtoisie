@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Compte - Courtoisie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c9a961;
+            --light: #f8f7f4;
+            --gray: #6b6b6b;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: var(--light);
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 10px rgba(0,0,0,0.05);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links .dropdown {
+            position: relative;
+        }
+
+        .nav-links .dropdown-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 16px 80px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: all 0.3s ease;
+            list-style: none;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+        }
+
+        .nav-links .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-links .dropdown-menu li a {
+            display: block;
+            padding: 4px 0;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--gray);
+        }
+
+        .nav-links .dropdown-menu li a:hover {
+            color: var(--primary);
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            color: var(--primary);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--primary);
+            transition: 0.3s;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: white;
+        }
+
+        .page-title h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+
+        /* Tabs */
+        .account-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+            background: white;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 40px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 16px 0;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            color: var(--gray);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-intro {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 40px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--gray);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background: transparent;
+            font-size: 15px;
+            font-family: 'Helvetica Neue', sans-serif;
+            color: var(--primary);
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-bottom-color: var(--primary);
+        }
+
+        .form-group input::placeholder {
+            color: #bbb;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b6b' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 4px center;
+            padding-right: 24px;
+        }
+
+        .date-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .date-row .form-group {
+            flex: 1;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            margin: 40px 0 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .checkbox-group h3 {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--primary);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            accent-color: var(--primary);
+        }
+
+        /* Legal */
+        .legal-text {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--gray);
+        }
+
+        .legal-text a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .legal-text p {
+            margin-bottom: 12px;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin-top: 40px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #333;
+        }
+
+        /* Login form */
+        .login-form .form-group {
+            margin-bottom: 28px;
+        }
+
+        .forgot-password {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--gray);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .forgot-password:hover {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 40px 40px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-big-block {
+            background: var(--primary);
+            text-align: center;
+            padding: 40px 20px 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-big-block .big-name {
+            font-size: 6vw;
+            font-weight: 700;
+            letter-spacing: 15px;
+            color: rgba(255,255,255,0.08);
+            padding-left: 15px;
+        }
+
+        .footer-big-block .copyright {
+            color: rgba(255,255,255,0.3);
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        /* Message feedback */
+        .message {
+            display: none;
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            border-radius: 2px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #f0f7f0;
+            color: #2d6a2d;
+            border-left: 3px solid #2d6a2d;
+        }
+
+        .message.error {
+            background: #fdf0f0;
+            color: #a33;
+            border-left: 3px solid #a33;
+        }
+
+        /* Mobile */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 30px 40px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            z-index: 999;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .mobile-sub {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mobile-sub a {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            nav {
+                padding: 0 20px;
+            }
+
+            .page-title h1 {
+                font-size: 24px;
+                letter-spacing: 5px;
+            }
+
+            .account-container {
+                padding: 0 20px 60px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .date-row {
+                flex-direction: row;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-big-block .big-name {
+                font-size: 10vw;
+                letter-spacing: 5px;
+                padding-left: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html"><img src="logo jas sans fond.png" alt="Courtoisie" style="height: 40px; width: auto;"></a>
+            </div>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="index.html#collections">Collections</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="polos-sartre.html">Polos Sartre</a></li>
+                        <li><a href="tshirts-descarte.html">T-Shirts Descarte</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#manifeste">Manifeste</a></li>
+                <li><a href="index.html#artisanat">Artisanat</a></li>
+                <li><a href="index.html#histoire">Notre Histoire</a></li>
+            </ul>
+            <button class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-icons">
+                <button class="icon-btn">
+                    <svg width="20" height="20" fill="currentColor">
+                        <circle cx="8" cy="8" r="6" stroke="currentColor" fill="none" stroke-width="2"/>
+                        <line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <button class="icon-btn" style="color: var(--accent);">
+                    <svg width="20" height="20" fill="currentColor">
+                        <circle cx="10" cy="7" r="4" stroke="currentColor" fill="none" stroke-width="2"/>
+                        <path d="M3 20c0-4 3.5-7 7-7s7 3 7 7" stroke="currentColor" fill="none" stroke-width="2"/>
+                    </svg>
+                </button>
+                <button class="icon-btn" onclick="window.location.href='index.html'">
+                    <svg width="20" height="20" fill="currentColor">
+                        <path d="M2 2h3l1 14h12l1-10H7" stroke="currentColor" fill="none" stroke-width="2"/>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html#collections" onclick="toggleMobileMenu()">Collections</a>
+        <div class="mobile-sub">
+            <a href="polos-sartre.html">Polos Sartre</a>
+            <a href="tshirts-descarte.html">T-Shirts Descarte</a>
+        </div>
+        <a href="index.html#manifeste" onclick="toggleMobileMenu()">Manifeste</a>
+        <a href="index.html#artisanat" onclick="toggleMobileMenu()">Artisanat</a>
+        <a href="index.html#histoire" onclick="toggleMobileMenu()">Notre Histoire</a>
+    </div>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1>Mon Compte</h1>
+    </div>
+
+    <!-- Account Container -->
+    <div class="account-container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('login')">Connexion</button>
+            <button class="tab" onclick="switchTab('register')">S'inscrire</button>
+        </div>
+
+        <!-- Login Tab -->
+        <div class="tab-content active" id="tab-login">
+            <p class="tab-intro">
+                Connectez-vous à votre compte Courtoisie pour accéder à vos commandes, gérer vos informations personnelles et profiter d'une expérience personnalisée.
+            </p>
+
+            <div class="message" id="loginMessage"></div>
+
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" placeholder="votre@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Mot de passe</label>
+                    <input type="password" id="login-password" placeholder="Votre mot de passe" required>
+                </div>
+                <a class="forgot-password">Mot de passe oublié ?</a>
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </form>
+        </div>
+
+        <!-- Register Tab -->
+        <div class="tab-content" id="tab-register">
+            <p class="tab-intro">
+                La création d'un compte Courtoisie vous permettra de gérer vos informations personnelles, de personnaliser votre expérience en ligne et de bénéficier d'un paiement plus rapide.
+            </p>
+
+            <div class="message" id="registerMessage"></div>
+
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-civilite">Civilité</label>
+                    <select id="reg-civilite" required>
+                        <option value="" disabled selected></option>
+                        <option value="mme">Madame</option>
+                        <option value="m">Monsieur</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-prenom">Prénom</label>
+                    <input type="text" id="reg-prenom" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-nom">Nom</label>
+                    <input type="text" id="reg-nom" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reg-indicatif">Indicatif pays</label>
+                        <select id="reg-indicatif">
+                            <option value="+33">+33 (FR)</option>
+                            <option value="+32">+32 (BE)</option>
+                            <option value="+41">+41 (CH)</option>
+                            <option value="+44">+44 (UK)</option>
+                            <option value="+1">+1 (US)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-tel">Téléphone (facultatif)</label>
+                        <input type="tel" id="reg-tel">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Date de naissance (facultatif)</label>
+                    <div class="date-row">
+                        <div class="form-group">
+                            <select id="reg-jour">
+                                <option value="" disabled selected>Jour</option>
+                                <script>for(let i=1;i<=31;i++) document.write(`<option value="${i}">${i}</option>`)</script>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="reg-mois">
+                                <option value="" disabled selected>Mois</option>
+                                <option value="1">Janvier</option>
+                                <option value="2">Février</option>
+                                <option value="3">Mars</option>
+                                <option value="4">Avril</option>
+                                <option value="5">Mai</option>
+                                <option value="6">Juin</option>
+                                <option value="7">Juillet</option>
+                                <option value="8">Août</option>
+                                <option value="9">Septembre</option>
+                                <option value="10">Octobre</option>
+                                <option value="11">Novembre</option>
+                                <option value="12">Décembre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="reg-annee">
+                                <option value="" disabled selected>Année</option>
+                                <script>for(let i=2008;i>=1920;i--) document.write(`<option value="${i}">${i}</option>`)</script>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-password">Mot de passe</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-pays">Lieu de résidence</label>
+                    <select id="reg-pays">
+                        <option value="france">France</option>
+                        <option value="belgique">Belgique</option>
+                        <option value="suisse">Suisse</option>
+                        <option value="canada">Canada</option>
+                        <option value="luxembourg">Luxembourg</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <!-- Communications -->
+                <div class="checkbox-group">
+                    <h3>Communications de marque</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="reg-consent">
+                        <span>Je consens à ce que Courtoisie m'envoie des communications sur la marque concernant de nouvelles collections, produits, services et événements par e-mail.</span>
+                    </label>
+                </div>
+
+                <!-- Legal -->
+                <div class="legal-text">
+                    <p>En créant un compte Courtoisie, vous reconnaissez que Courtoisie collectera, traitera et stockera vos données personnelles comme décrit dans la <a href="#">Politique de confidentialité</a>.</p>
+                    <p>Vous pouvez retirer vos consentements à tout moment. Si vous ne souhaitez plus avoir de compte, vous pouvez demander sa suppression en nous <a href="contact.html">contactant</a>.</p>
+                    <p>En continuant, vous confirmez que vous avez l'âge requis pour créer un compte chez Courtoisie.</p>
+                </div>
+
+                <button type="submit" class="btn-submit">Poursuivre</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Boutique</h4>
+                <ul>
+                    <li><a href="#">Nouvelle Collection</a></li>
+                    <li><a href="#">Homme</a></li>
+                    <li><a href="#">Femme</a></li>
+                    <li><a href="#">Accessoires</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Service Client</h4>
+                <ul>
+                    <li><a href="#">Livraison & Retours</a></li>
+                    <li><a href="#">Guide des Tailles</a></li>
+                    <li><a href="#">Entretien</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>À Propos</h4>
+                <ul>
+                    <li><a href="index.html#manifeste">Notre Manifeste</a></li>
+                    <li><a href="#">Notre Histoire</a></li>
+                    <li><a href="#">Nos Ateliers</a></li>
+                    <li><a href="#">Engagement Durable</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Pinterest</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <div class="footer-big-block">
+        <div class="big-name">COURTOISIE</div>
+        <p class="copyright">&copy; 2025 Courtoisie - Tous droits réservés</p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5WEd28y3fQnuREG1chSjvtAFCSG7L7_E",
+            authDomain: "courtoisie-6e13f.firebaseapp.com",
+            projectId: "courtoisie-6e13f",
+            storageBucket: "courtoisie-6e13f.firebasestorage.app",
+            messagingSenderId: "480921478304",
+            appId: "1:480921478304:web:697b741386414059ef55c5"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+
+            if (tab === 'login') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('tab-login').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('tab-register').classList.add('active');
+            }
+        }
+
+        function showMessage(elementId, text, type) {
+            const el = document.getElementById(elementId);
+            el.textContent = text;
+            el.className = 'message ' + type;
+            el.style.display = 'block';
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((cred) => {
+                    showMessage('loginMessage', 'Connexion réussie ! Bienvenue.', 'success');
+                    setTimeout(() => window.location.href = 'index.html', 1500);
+                })
+                .catch((err) => {
+                    let msg = 'E-mail ou mot de passe incorrect.';
+                    if (err.code === 'auth/user-not-found') msg = 'Aucun compte trouvé avec cet e-mail.';
+                    if (err.code === 'auth/wrong-password') msg = 'Mot de passe incorrect.';
+                    if (err.code === 'auth/too-many-requests') msg = 'Trop de tentatives. Réessayez plus tard.';
+                    showMessage('loginMessage', msg, 'error');
+                });
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const prenom = document.getElementById('reg-prenom').value;
+            const nom = document.getElementById('reg-nom').value;
+            const civilite = document.getElementById('reg-civilite').value;
+            const tel = document.getElementById('reg-tel').value;
+            const pays = document.getElementById('reg-pays').value;
+            const consent = document.getElementById('reg-consent').checked;
+
+            if (password.length < 6) {
+                showMessage('registerMessage', 'Le mot de passe doit contenir au moins 6 caractères.', 'error');
+                return;
+            }
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((cred) => {
+                    return db.collection('users').doc(cred.user.uid).set({
+                        email,
+                        prenom,
+                        nom,
+                        civilite,
+                        tel,
+                        pays,
+                        consent,
+                        createdAt: new Date().toISOString()
+                    });
+                })
+                .then(() => {
+                    showMessage('registerMessage', 'Compte créé avec succès ! Bienvenue ' + prenom + '.', 'success');
+                    setTimeout(() => window.location.href = 'index.html', 1500);
+                })
+                .catch((err) => {
+                    let msg = 'Une erreur est survenue.';
+                    if (err.code === 'auth/email-already-in-use') msg = 'Un compte avec cet e-mail existe déjà.';
+                    if (err.code === 'auth/weak-password') msg = 'Le mot de passe est trop faible (6 caractères minimum).';
+                    if (err.code === 'auth/invalid-email') msg = 'Adresse e-mail invalide.';
+                    showMessage('registerMessage', msg, 'error');
+                });
+        }
+
+        // Mot de passe oublié
+        document.querySelector('.forgot-password').addEventListener('click', function() {
+            const email = document.getElementById('login-email').value;
+            if (!email) {
+                showMessage('loginMessage', 'Entrez votre e-mail puis cliquez sur "Mot de passe oublié".', 'error');
+                return;
+            }
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showMessage('loginMessage', 'Un e-mail de réinitialisation a été envoyé à ' + email + '.', 'success');
+                })
+                .catch(() => {
+                    showMessage('loginMessage', 'Impossible d\'envoyer l\'e-mail. Vérifiez l\'adresse.', 'error');
+                });
+        });
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
